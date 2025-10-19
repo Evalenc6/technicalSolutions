@@ -1,2 +1,2 @@
-#This Project was made for Cloud Computing Class
+This Project was made for Cloud Computing Class
 
