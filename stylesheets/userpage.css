@@ -1,0 +1,22 @@
+h1{
+    text-align: center;
+    font-size: xx-large;
+    color: brown;
+}
+
+.userOptions{
+   display: flex;
+   flex-direction: column;
+    align-items:start;
+    margin-top: 5vh;
+}
+.logoutButton{
+    align-self:flex-end;
+}
+
+.orders{
+    
+}
+button{
+    align-self: center;
+}
