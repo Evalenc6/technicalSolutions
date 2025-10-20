@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Database ER Diagram</title>
+
+  <!-- Mermaid.js CDN -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f7f9fb;
+      color: #222;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .mermaid {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+
+<body>
+  <h1>ER Diagram — Technical Solutions Database</h1>
+
+  <div class="mermaid">
+erDiagram
+    USERS {
+        int UserID PK
+        varchar Username "Unique, Not Null"
+        varchar FName
+        varchar LName
+        varchar Email "Unique"
+        varchar PasswordHash
+        enum UserType "Employee / User"
+    }
+
+    ORDERS {
+        bigint OrderID PK
+        int OrderedBy FK
+        varchar ToLocation
+        varchar FromLocation
+        int DeviceCount
+        decimal TotalPrice
+        enum Status "Pending / Processing / Completed / Canceled"
+        boolean Imaging
+        boolean AssetTagging
+        boolean DomainSetup
+        text Applications
+    }
+
+    DEVICES {
+        int DeviceID PK
+        bigint OrderID FK
+        varchar ServiceTag
+        bigint FixedAssetTag
+        datetime DateCreated
+        varchar AssignedEmployee FK
+        enum Status "In Progress / Ready / Deployed / Retired"
+    }
+
+    USERS ||--o{ ORDERS : "places"
+    ORDERS ||--o{ DEVICES : "contains"
+    USERS ||--o{DEVICES : "Assigned"
+  </div>
+</body>
+</html>
