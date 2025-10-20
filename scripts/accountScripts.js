@@ -33,7 +33,7 @@ async function singIn(){
                             headers: {"Content-Type": "application/json"}
                         });
 
-                        window.location.href = "/pages/userpage.html";
+                        window.location.href = "/src/userpage.html";
                         return response;
                     }
                 }
