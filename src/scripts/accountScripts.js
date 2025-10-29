@@ -50,5 +50,32 @@ async function singIn(){
         }
     })
 }
+//Toggles Passwords Visibility through the eyeball button
+function togglePassword(){
+    var button = document.getElementById("togglePasswordIcon");
+    var password = document.getElementById("password");
+    //Hold duration and timer work together to allow this function to recognize that the button is being held vs just being pressed.
+    let holdtimer; 
+    const holdDuration= 1000;
+    button.addEventListener('mousedown',() =>{
+        holdtimer = setTimeout(()=>{
+            console.log("Button being held");
+        }, holdDuration)
+    });
+
+    button.addEventListener('mouseup',()=>{
+        clearTimeout(holdtimer);
+        console.log("Button released");
+    });
+
+    button.addEventListener('mouseout',()=>{
+        clearTimeout();
+        console.log("Mouse moved from the button");
+    })
+
+
+
+}
 
 window.addEventListener("DOMContentLoaded", singIn);
+
