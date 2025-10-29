@@ -15,7 +15,7 @@ async function singIn(){
         const username = formData.get("username");
         const password = formData.get("password");
         console.log(username, ", ", password);
-            const file= await fetch('/exampleData/userNamePasswords.txt');
+            const file= await fetch('./exampleData/userNamePasswords.txt');
             if(!file.ok){
                 throw new Error(`HTTP error! status: ${file}`);
             }
@@ -33,7 +33,7 @@ async function singIn(){
                             headers: {"Content-Type": "application/json"}
                         });
 
-                        window.location.href = "/userpage.html";
+                        window.location.assign("userpage.html");
                         return response;
                     }
                 }
@@ -56,22 +56,31 @@ function togglePassword(){
     var password = document.getElementById("password");
     //Hold duration and timer work together to allow this function to recognize that the button is being held vs just being pressed.
     let holdtimer; 
-    const holdDuration= 1000;
+    const holdDuration= 100;
     button.addEventListener('mousedown',() =>{
         holdtimer = setTimeout(()=>{
             console.log("Button being held");
+
+            password.setAttribute('type', 'text');
         }, holdDuration)
     });
 
     button.addEventListener('mouseup',()=>{
         clearTimeout(holdtimer);
         console.log("Button released");
+        password.setAttribute('type', 'password');
+
     });
 
     button.addEventListener('mouseout',()=>{
         clearTimeout();
         console.log("Mouse moved from the button");
-    })
+        password.setAttribute('type', 'password');
+
+    });
+
+    
+
 
 
 
