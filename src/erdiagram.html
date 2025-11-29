@@ -34,45 +34,81 @@
 <body>
   <h1>ER Diagram — Technical Solutions Database</h1>
 
-  <div class="mermaid">
-erDiagram
-    USERS {
-        int UserID PK
-        varchar Username "Unique, Not Null"
-        varchar FName
-        varchar LName
-        varchar Email "Unique"
-        varchar PasswordHash
-        enum UserType "Employee / User"
-    }
+    <div class="mermaid">
+    erDiagram
+        %%{init: {'er': { 'layoutDirection': 'LR' }}}%%
+        
+        PERSON {
+            int UserID PK
+            varchar Username "Unique, Not Null"
+            varchar FName
+            varchar LName
+            varchar Email "Unique"
+            varchar urlLinkToID 
+            date DOB
+            varchar PasswordHash "Unique, Not Null"
+            varchar SessionToken "Unique"
+            varchar RefreshToken "Unique"
+            datetime SessionTokeExpDate 
+            datetime RefreshTokenExpDate 
+            enum UserType "Manager / Employee / User"
+        }
+        FILE_UPLOAD {
+          int FileID PK
+          int UploadedBy FK
+          varchar FileName
+          varchar FileURL
+          varchar FileType
+          datetime UploadedAt
+          text Description
+        }
 
-    ORDERS {
-        bigint OrderID PK
-        int OrderedBy FK
-        varchar ToLocation
-        varchar FromLocation
-        int DeviceCount
-        decimal TotalPrice
-        enum Status "Pending / Processing / Completed / Canceled"
-        boolean Imaging
-        boolean AssetTagging
-        boolean DomainSetup
-        text Applications
-    }
 
-    DEVICES {
-        int DeviceID PK
-        bigint OrderID FK
-        varchar ServiceTag
-        bigint FixedAssetTag
-        datetime DateCreated
-        varchar AssignedEmployee FK
-        enum Status "In Progress / Ready / Deployed / Retired"
-    }
+        USERS {}
+        EMPLOYEE {}
+        MANAGER {}
 
-    USERS ||--o{ ORDERS : "places"
-    ORDERS ||--o{ DEVICES : "contains"
-    USERS ||--o{DEVICES : "Assigned"
-  </div>
+        ASSIGNMENT {}
+        ORDERS {
+            bigint OrderID PK
+            int OrderedBy FK
+            varchar ToLocation
+            varchar FromLocation
+            int DeviceCount
+            decimal TotalPrice
+            enum Status "Pending / Processing / Completed / Canceled"
+            boolean Imaging
+            boolean AssetTagging
+            boolean DomainSetup
+            text Applications
+        }
+        DEVICES {
+            int DeviceID PK
+            bigint OrderID FK
+            varchar ServiceTag
+            bigint FixedAssetTag
+            datetime DateCreated
+            varchar AssignedEmployee FK
+            enum Status "In Progress / Ready / Deployed / Retired"
+            file deviceInfoPDF
+        }
+
+        PERSON ||--|{ EMPLOYEE : "is a"
+        PERSON ||--|{ MANAGER : "is a"
+        PERSON ||--|{ USERS   : "is a"
+
+        EMPLOYEE }o--|| MANAGER : "managed_by"
+        MANAGER ||--o{ ASSIGNMENT : "creates"
+        ASSIGNMENT }o--|| EMPLOYEE : "assigned_to"
+        ASSIGNMENT }o--|| DEVICES  : "includes"
+
+        USERS ||--o{ ORDERS : "places"
+        ORDERS ||--o{ DEVICES : "contains"
+        MANAGER ||--o{ EMPLOYEE : "manages"
+
+        PERSON ||--o{ FILE_UPLOAD : "uploads"
+
+
+    </div>
 </body>
 </html>
