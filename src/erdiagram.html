@@ -36,7 +36,7 @@
 
     <div class="mermaid">
     erDiagram
-        %%{init: {'er': { 'layoutDirection': 'LR' }}}%%
+        %%{init: {'er': { 'layoutDirection': 'TD' }}}%%
         
         PERSON {
             int UserID PK
@@ -85,20 +85,40 @@
         DEVICES {
             int DeviceID PK
             bigint OrderID FK
+            varchar DeviceType FK
+            varchar AssignedEmployee FK
             varchar ServiceTag
             bigint FixedAssetTag
             datetime DateCreated
-            varchar AssignedEmployee FK
             enum Status "In Progress / Ready / Deployed / Retired"
             file deviceInfoPDF
         }
+        
+        DEVICETYPES{
+          int DeviceTypeID PK
+          UserID addedBy FK
+          varchar DeviceName "Unique, Not Null"
+          text CPU
+          text GPU
+          text RAM
+          text Storage
+          text Display
+          text Battery
+          text Ports
+          text Screen
+        }
+
+        
 
         PERSON ||--|{ EMPLOYEE : "is a"
         PERSON ||--|{ MANAGER : "is a"
         PERSON ||--|{ USERS   : "is a"
 
         EMPLOYEE }o--|| MANAGER : "managed_by"
+
         MANAGER ||--o{ ASSIGNMENT : "creates"
+        MANAGER ||--o{ DEVICETYPES : "adds"
+
         ASSIGNMENT }o--|| EMPLOYEE : "assigned_to"
         ASSIGNMENT }o--|| DEVICES  : "includes"
 
@@ -108,7 +128,8 @@
 
         PERSON ||--o{ FILE_UPLOAD : "uploads"
 
-
+        DEVICES ||--|| DEVICETYPES : "is a"
+        DEVICETYPES ||--|| ORDERS : "has"
     </div>
 </body>
 </html>
