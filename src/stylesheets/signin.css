@@ -1,9 +1,12 @@
+
+
 h1{
     text-align: center;
     font-size:  clamp(32px, 2.5vw, 46px);
 }
 
 body{
+    background-color: rgb(231, 236, 241);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -15,9 +18,10 @@ body{
     align-items: center;
     margin-top: 1vh;    
 }
+
 form{
+    background-color: rgb(251, 245, 245);
     font-size:  clamp(16px, 3vw, 32px);
-    
     display:flex;
     flex-direction: column;
     width: 80%;
